@@ -1,64 +1,31 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="IMGTUFF v1: formato próprio de imagens 67 por 67.">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>IMGTUFF v1</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <main class="shell">
-    <header class="hero">
-      <p class="eyebrow">FORMATO BINÁRIO PRÓPRIO · V1</p>
-      <h1>IMG<span>TUFF</span></h1>
-      <p>Imagem <b>67 × 67</b>, RGBA cru e zero PNG disfarçado. Fr.</p>
-    </header>
-
-    <section class="format-strip" aria-label="Resumo do formato">
-      <div><b>IMGTUFF\0</b><small>magic number</small></div>
-      <div><b>48 B</b><small>header fixo</small></div>
-      <div><b>RGBA8</b><small>pixels crus</small></div>
-      <div><b>CRC-32</b><small>integridade</small></div>
-      <div><b>18.004 B</b><small>arquivo v1</small></div>
+  <main>
+    <header><p>FORMATO BINÁRIO PRÓPRIO · V1</p><h1>IMG<span>TUFF</span></h1><strong>67 × 67 · RGBA8 · CRC-32</strong></header>
+    <section>
+      <h2>Criar .imgtuff</h2>
+      <p>Escolha uma imagem. Ela será sempre redimensionada para 67×67.</p>
+      <input id="source" type="file" accept="image/*">
+      <button id="encode" disabled>Baixar .imgtuff</button>
+      <output id="encode-status"></output>
     </section>
-
-    <section class="grid">
-      <article class="card accent">
-        <div class="card-heading"><span>01</span><h2>Criar .imgtuff</h2></div>
-        <p>Converte uma imagem normal para o binário IMGTUFF v1.</p>
-        <label class="dropzone" for="encode-file">
-          <input id="encode-file" type="file" accept="image/*">
-          <strong>Escolher imagem</strong><small>PNG, JPEG, WebP, GIF…</small>
-        </label>
-        <div id="source-status" class="status muted">Nenhuma imagem selecionada.</div>
-        <label class="check"><input id="resize" type="checkbox"><span>Redimensionar para 67 × 67</span></label>
-        <button id="encode-button" disabled>Criar IMGTUFF <i>→</i></button>
-      </article>
-
-      <article class="card">
-        <div class="card-heading"><span>02</span><h2>Abrir / validar</h2></div>
-        <p>Confere header, tamanho, campos fixos e CRC-32 antes de decodificar.</p>
-        <label class="dropzone" for="decode-file">
-          <input id="decode-file" type="file" accept=".imgtuff,application/octet-stream">
-          <strong>Escolher .imgtuff</strong><small>arquivo IMGTUFF v1</small>
-        </label>
-        <div id="validation-status" class="status muted">Aguardando arquivo.</div>
-        <pre id="metadata" class="metadata" hidden></pre>
-        <button id="decode-button" disabled>Baixar PNG <i>↓</i></button>
-      </article>
+    <section>
+      <h2>Abrir .imgtuff</h2>
+      <p>O arquivo é validado e aberto aqui mesmo, sem converter para outro formato.</p>
+      <input id="encoded" type="file" accept=".imgtuff,application/octet-stream">
+      <output id="decode-status"></output>
+      <canvas id="preview" width="67" height="67" hidden aria-label="Imagem IMGTUFF aberta"></canvas>
+      <pre id="info" hidden></pre>
     </section>
-
-    <section class="spec card">
-      <div class="card-heading"><span>V1</span><h2>Mapa do arquivo</h2></div>
-      <div class="byte-map" aria-label="Estrutura de bytes do IMGTUFF v1">
-        <div class="magic">0–7<br><b>MAGIC</b></div><div class="version">8–11<br><b>VERSÃO</b></div><div class="dimensions">12–15<br><b>67 × 67</b></div><div class="format">16–19<br><b>RGBA8</b></div><div class="offset">20–35<br><b>LAYOUT</b></div><div class="crc">36–39<br><b>CRC-32</b></div><div class="reserved">40–47<br><b>RESERVADO</b></div><div class="pixels">48–18003<br><b>PIXELS RGBA</b></div>
-      </div>
-      <p class="footnote">Inteiros little-endian. O tamanho do header e o campo de versão deixam o formato pronto para evoluir sem quebrar os v1.</p>
-      <a href="README.md" target="_blank">Ler especificação completa →</a>
-    </section>
+    <footer>100% local · <a href="README.md" target="_blank">especificação IMGTUFF v1</a></footer>
   </main>
-  <footer>IMGTUFF v1 · processamento 100% local no navegador</footer>
   <script src="imgtuff.js"></script>
 </body>
 </html>
